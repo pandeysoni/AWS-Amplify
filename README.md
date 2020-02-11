@@ -1,15 +1,15 @@
-# Initiate the project using 
+## Initiate the project  
 ```
 amplify init
 ```
 
-#Add api
+## Add api
 
 ```
 amplify add api
 ```
 
-#push the changes to AWS
+## Push the changes to AWS resources
 
 ```
 amplify push
