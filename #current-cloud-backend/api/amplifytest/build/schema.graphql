@@ -1,0 +1,214 @@
+type Employee {
+  id: ID!
+  email: String!
+  companyId: ID!
+}
+
+type Company {
+  id: ID!
+  name: String!
+  type: String
+}
+
+enum ModelSortDirection {
+  ASC
+  DESC
+}
+
+type ModelEmployeeConnection {
+  items: [Employee]
+  nextToken: String
+}
+
+input ModelStringInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelIDInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelIntInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelFloatInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  between: [Float]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelBooleanInput {
+  ne: Boolean
+  eq: Boolean
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelSizeInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+}
+
+input ModelEmployeeFilterInput {
+  id: ModelIDInput
+  email: ModelStringInput
+  companyId: ModelIDInput
+  and: [ModelEmployeeFilterInput]
+  or: [ModelEmployeeFilterInput]
+  not: ModelEmployeeFilterInput
+}
+
+type Query {
+  getEmployee(id: ID!): Employee
+  listEmployees(filter: ModelEmployeeFilterInput, limit: Int, nextToken: String): ModelEmployeeConnection
+  getCompany(id: ID!): Company
+  listCompanys(filter: ModelCompanyFilterInput, limit: Int, nextToken: String): ModelCompanyConnection
+  employeeByCompanyIdAndEmail(companyId: ID, email: ModelStringKeyConditionInput, sortDirection: ModelSortDirection, filter: ModelEmployeeFilterInput, limit: Int, nextToken: String): ModelEmployeeConnection
+}
+
+input CreateEmployeeInput {
+  id: ID
+  email: String!
+  companyId: ID!
+}
+
+input UpdateEmployeeInput {
+  id: ID!
+  email: String
+  companyId: ID
+}
+
+input DeleteEmployeeInput {
+  id: ID
+}
+
+type Mutation {
+  createEmployee(input: CreateEmployeeInput!, condition: ModelEmployeeConditionInput): Employee
+  updateEmployee(input: UpdateEmployeeInput!, condition: ModelEmployeeConditionInput): Employee
+  deleteEmployee(input: DeleteEmployeeInput!, condition: ModelEmployeeConditionInput): Employee
+  createCompany(input: CreateCompanyInput!, condition: ModelCompanyConditionInput): Company
+  updateCompany(input: UpdateCompanyInput!, condition: ModelCompanyConditionInput): Company
+  deleteCompany(input: DeleteCompanyInput!, condition: ModelCompanyConditionInput): Company
+}
+
+input ModelEmployeeConditionInput {
+  email: ModelStringInput
+  companyId: ModelIDInput
+  and: [ModelEmployeeConditionInput]
+  or: [ModelEmployeeConditionInput]
+  not: ModelEmployeeConditionInput
+}
+
+enum ModelAttributeTypes {
+  binary
+  binarySet
+  bool
+  list
+  map
+  number
+  numberSet
+  string
+  stringSet
+  _null
+}
+
+type Subscription {
+  onCreateEmployee: Employee @aws_subscribe(mutations: ["createEmployee"])
+  onUpdateEmployee: Employee @aws_subscribe(mutations: ["updateEmployee"])
+  onDeleteEmployee: Employee @aws_subscribe(mutations: ["deleteEmployee"])
+  onCreateCompany: Company @aws_subscribe(mutations: ["createCompany"])
+  onUpdateCompany: Company @aws_subscribe(mutations: ["updateCompany"])
+  onDeleteCompany: Company @aws_subscribe(mutations: ["deleteCompany"])
+}
+
+type ModelCompanyConnection {
+  items: [Company]
+  nextToken: String
+}
+
+input ModelCompanyFilterInput {
+  id: ModelIDInput
+  name: ModelStringInput
+  type: ModelStringInput
+  and: [ModelCompanyFilterInput]
+  or: [ModelCompanyFilterInput]
+  not: ModelCompanyFilterInput
+}
+
+input CreateCompanyInput {
+  id: ID
+  name: String!
+  type: String
+}
+
+input UpdateCompanyInput {
+  id: ID!
+  name: String
+  type: String
+}
+
+input DeleteCompanyInput {
+  id: ID
+}
+
+input ModelCompanyConditionInput {
+  name: ModelStringInput
+  type: ModelStringInput
+  and: [ModelCompanyConditionInput]
+  or: [ModelCompanyConditionInput]
+  not: ModelCompanyConditionInput
+}
+
+input ModelStringKeyConditionInput {
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  between: [String]
+  beginsWith: String
+}

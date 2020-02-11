@@ -1,0 +1,10 @@
+type Employee @model @key(name: "companyId-email-index", fields: ["companyId", "email" ], queryField: "employeeByCompanyIdAndEmail"){
+  id: ID!
+  email: String!
+  companyId: ID!
+}
+type Company @model{
+  id: ID!
+  name: String! 
+  type: String
+}
